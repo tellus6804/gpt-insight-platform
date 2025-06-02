@@ -1,0 +1,16 @@
+body {
+  font-family: 'Malgun Gothic', sans-serif;
+}
+textarea {
+  background-color: #1e1e1e;
+  color: #E0E0E0;
+  border: 1px solid #00C2C2;
+  padding: 0.5rem;
+}
+button {
+  background-color: #00C2C2;
+  color: #121212;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}

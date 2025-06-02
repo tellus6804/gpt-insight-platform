@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPT Insight MVP</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body style="background-color: #121212; color: #E0E0E0;">
+  <header style="padding: 1rem; background-color: #121212;">
+    <h1 style="color: #00C2C2;">GPT Insight 진단 플랫폼</h1>
+  </header>
+  <main style="padding: 1rem;">
+    <textarea id="userInput" placeholder="GPT에게 어떤 질문을 하셨나요?" style="width: 100%; height: 100px;"></textarea><br>
+    <textarea id="gptResponse" placeholder="GPT가 어떤 답변을 했나요?" style="width: 100%; height: 100px; margin-top: 0.5rem;"></textarea><br>
+    <button onclick="startDiagnosis()" style="margin-top: 0.5rem;">진단 시작하기</button>
+    <div id="result" style="margin-top: 2rem;"></div>
+  </main>
+  <script src="/main.js"></script>
+</body>
+</html>
