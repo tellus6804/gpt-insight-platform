@@ -2,11 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
 } from "chart.js";
 import logo from "./logo.png";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const STORAGE_KEY = "gpt_insight_reports";
 const PATENT_NOTICE = "© 2025 GPT Insight | Protected by Korean Patent Application No. 10-2025-0067545, 10-2025-0068036, PCT/KR2025/007500";
@@ -44,8 +60,12 @@ const getGradeColor = grade => {
 
 export default function App() {
   const [form, setForm] = useState({
-    name: "", company: "", department: "", author: "",
-    date: new Date().toISOString().slice(0, 10), question: ""
+    name: "",
+    company: "",
+    department: "",
+    author: "",
+    date: new Date().toISOString().slice(0, 10),
+    question: ""
   });
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState([]);
@@ -223,20 +243,61 @@ export default function App() {
               <input value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} type="date" style={{ flex: 1, fontSize: 16, padding: 8, borderRadius: 8, border: "1.5px solid #d9eef3" }} />
             </div>
             <textarea value={form.question} onChange={e => setForm(f => ({ ...f, question: e.target.value }))} placeholder="진단할 질문/내용 입력" rows={4} style={{ width: "100%", fontSize: 16, padding: 10, borderRadius: 8, border: "1.5px solid #d9eef3", marginBottom: 24, resize: "vertical" }}></textarea>
-            <button onClick={handleDiagnose} style={{ width: "100%", padding: 14, border: "none", borderRadius: 11, background: "linear-gradient(90deg,#00C2C2,#21C586)", color: "#fff", fontWeight: 900, fontSize: 18, cursor: "pointer", boxShadow: "0 2px 6px #00c2c233" }}>
-              진단 시작
-            </button>
-            <div style={{ marginTop: 24 }}>
-              <select value={selectedName} onChange={e => setSelectedName(e.target.value)} style={{ width: "100%", padding: 10, borderRadius: 8, border: "1.5px solid #d9eef3", fontSize: 15, marginBottom: 8 }}>
-                <option value="">[ 이전 진단 결과 선택 ]</option>
-                {history.map((h, idx) => (
-                  <option key={idx} value={h.name}>{h.name} ({h.date})</option>
-                ))}
-              </select>
-              <button onClick={handleLoadPrevious} style={{ width: "100%", padding: 12, border: "none", borderRadius: 10, background: "#eeeeee", color: "#333", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
-                불러오기
-              </button>
-            </div>
+<button
+  onClick={handleDiagnose}
+  style={{
+    width: "100%",
+    padding: 14,
+    borderRadius: 11,
+    background: "linear-gradient(90deg,#00C2C2,#21C586)",
+    color: "#fff",
+    fontWeight: 900,
+    fontSize: 18,
+    cursor: "pointer",
+    boxShadow: "0 2px 6px #00c2c233",
+    border: "none" // border 중복 없음
+  }}
+>
+  진단 시작
+</button>
+<div style={{ marginTop: 24 }}>
+  <select
+    value={selectedName}
+    onChange={e => setSelectedName(e.target.value)}
+    style={{
+      width: "100%",
+      padding: 10,
+      borderRadius: 8,
+      border: "1.5px solid #d9eef3",
+      fontSize: 15,
+      marginBottom: 8
+    }}
+  >
+    <option value="">[ 이전 진단 결과 선택 ]</option>
+    {history.map((h, idx) => (
+      <option key={idx} value={h.name}>
+        {h.name} ({h.date})
+      </option>
+    ))}
+  </select>
+  <button
+    onClick={handleLoadPrevious}
+    style={{
+      width: "100%",
+      padding: 12,
+      border: "none", // border 중복 없음
+      borderRadius: 10,
+      background: "#eeeeee",
+      color: "#333",
+      fontWeight: 800,
+      fontSize: 15,
+      cursor: "pointer"
+    }}
+  >
+    불러오기
+  </button>
+</div>
+
           </section>
           <div style={{
             display: "flex", justifyContent: "center", margin: "46px 0 0 0", width: "100%",
