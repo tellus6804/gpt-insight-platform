@@ -486,10 +486,11 @@ export default function App() {
           <div style={{ width: "100%", display: "flex", justifyContent: "center", gap: 16, margin: "32px 0" }}>
             <button onClick={handleReset}
               style={{
-                padding: "12px 26px", border: "none", borderRadius: 10,
-                background: "#f7f8fa", color: "#00C2C2", fontWeight: 900, fontSize: 16,
-                cursor: "pointer", boxShadow: "0 2px 6px #00c2c233", border: "1.3px solid #c0e2e2"
-              }}>
+  padding: "12px 26px", borderRadius: 10,
+  background: "#f7f8fa", color: "#00C2C2", fontWeight: 900, fontSize: 16,
+  cursor: "pointer", boxShadow: "0 2px 6px #00c2c233", border: "1.3px solid #c0e2e2"
+}}
+>
               다시 진단
             </button>
             <button onClick={handleCopyLink}
@@ -501,13 +502,14 @@ export default function App() {
               결과 공유
             </button>
             <button onClick={handleFeedbackCopy}
-              style={{
-                padding: "12px 26px", border: "none", borderRadius: 10,
-                background: "#faf2fc", color: "#B347B3", fontWeight: 900, fontSize: 16,
-                cursor: "pointer", border: "1.3px solid #ecd7fa"
-              }}>
-              피드백 남기기
-            </button>
+                style={{
+    padding: "12px 26px", borderRadius: 10,
+    background: "#faf2fc", color: "#B347B3", fontWeight: 900, fontSize: 16,
+    cursor: "pointer", border: "1.3px solid #ecd7fa"
+  }}
+>
+  피드백 남기기
+</button>
           </div>
         </>
       )}
