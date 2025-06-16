@@ -410,26 +410,34 @@ const comparisonInsights = diffs
   return (
     <div style={{ fontFamily: "맑은 고딕, sans-serif", background: "#f7fafc", minHeight: "100vh", paddingBottom: 40 }}>
           {/* ✅ 배너 여기 삽입 */}
-    {showBanner && (
-      <div style={{
-        position: "fixed",
-        top: "20%",
-        left: "50%",
-        transform: "translateX(-50%)",
-        background: "#e8fcff",
-        padding: "24px 32px",
-        borderRadius: 16,
-        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-        zIndex: 9999,
-        textAlign: "center"
-      }}>
-        <img
-          src={bannerImg}
-          alt="업데이트 안내"
-          style={{ width: 450, maxWidth: "90%" }}
-        />
-      </div>
-    )}
+{showBanner && (
+  <div style={{
+    position: "fixed",
+    top: "16%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    background: "#e8fcff",
+    padding: "28px 32px",
+    borderRadius: 18,
+    boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+    zIndex: 9999,
+    textAlign: "center",
+    width: "90%",
+    maxWidth: 440,
+    transition: "opacity 1s ease, transform 1s ease",
+    opacity: showBanner ? 1 : 0,
+    transform: showBanner ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-20px)"
+  }}>
+    <div style={{ fontSize: 20, fontWeight: "bold", marginBottom: 12 }}>
+      📣 GPT Insight가 <span style={{ color: "#00C2C2" }}>업데이트</span>되었습니다!
+    </div>
+    <div style={{ fontSize: 15, lineHeight: 1.6, color: "#333" }}>
+      사용자 피드백을 반영해 <b>UI 색상</b>, <b>버튼 구성</b>, <b>피드백 창</b>이 더 깔끔하게 개선되었어요.<br />
+      더 나은 서비스로 계속 발전하겠습니다 🙌
+    </div>
+  </div>
+)}
+
       {!result && (
         <>
           <h1 style={{ textAlign: "center", color: "#00C2C2", paddingTop: 36 }}>
