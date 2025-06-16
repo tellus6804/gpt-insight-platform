@@ -17,6 +17,7 @@ import {
   analyzeUserCommunicationStyle,
   extractUserSpeechOnly
 } from "./modules/userAnalysis";
+import bannerImg from "./assets/banner.png";
 
 
 ChartJS.register(
@@ -124,6 +125,11 @@ export default function App() {
     question: ""
   });
 
+  const [showBanner, setShowBanner] = useState(true);
+    useEffect(() => {
+    const timer = setTimeout(() => setShowBanner(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
   const modalStyle = {
     position: "fixed",
     top: 0, left: 0,
@@ -403,6 +409,27 @@ const comparisonInsights = diffs
 
   return (
     <div style={{ fontFamily: "맑은 고딕, sans-serif", background: "#f7fafc", minHeight: "100vh", paddingBottom: 40 }}>
+          {/* ✅ 배너 여기 삽입 */}
+    {showBanner && (
+      <div style={{
+        position: "fixed",
+        top: "20%",
+        left: "50%",
+        transform: "translateX(-50%)",
+        background: "#e8fcff",
+        padding: "24px 32px",
+        borderRadius: 16,
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+        zIndex: 9999,
+        textAlign: "center"
+      }}>
+        <img
+          src={bannerImg}
+          alt="업데이트 안내"
+          style={{ width: 450, maxWidth: "90%" }}
+        />
+      </div>
+    )}
       {!result && (
         <>
           <h1 style={{ textAlign: "center", color: "#00C2C2", paddingTop: 36 }}>
