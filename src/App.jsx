@@ -924,7 +924,7 @@ const comparisonInsights = diffs
 
   {/* 💬 Google Form 버튼 */}
   <a
-    href="https://forms.gle/your-google-form-link"  // ← 실제 링크로 교체
+    href="https://docs.google.com/forms/d/e/1FAIpQLSfXMwecdmblxC6vDNZRaDI470mrc4miny1_OJyP_QI94URAlQ/viewform?usp=header"  // ← 실제 링크로 교체
     target="_blank"
     rel="noopener noreferrer"
     style={{
