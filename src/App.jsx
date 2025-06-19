@@ -199,22 +199,28 @@ useEffect(() => {
 
 const handleDiagnose = () => {
   setLoading(true);
-  setLoadingStage(1); // 1단계 로딩 문구
+  setLoadingStage(1);
 
-  // 2초 후 2단계 로딩 문구로 전환
   setTimeout(() => {
     setLoadingStage(2);
   }, 2000);
 
-  // 4초 후 진단 로직 실행
   setTimeout(() => {
     const text = form.question.trim();
     const words = text.split(/\s+/);
     const uniqueWords = new Set(words.map(w => w.toLowerCase()));
     const sentenceCount = text.split(/[.!?]/).filter(s => s.trim().length > 0).length;
+    const avgSentenceLength = words.length / sentenceCount;
+    const uniqueRatio = uniqueWords.size / words.length;
 
+    // ✅ 입력 검증
     if (text.length < 100 || sentenceCount < 3 || uniqueWords.size < 20) {
-      alert("❌ 분석 불가: 입력 내용이 부족합니다.\n\n⦁ 최소 100자 이상\n⦁ 최소 3문장 이상\n⦁ 고유 단어 20개 이상 입력해주세요.");
+      alert(
+        "❌ 분석 불가: 입력 내용이 부족합니다.\n\n" +
+        "⦁ 사용자 질문 기준으로 최소 100자 이상\n" +
+        "⦁ 최소 3문장 이상\n" +
+        "⦁ 고유 단어 20개 이상 입력해주세요."
+      );
       setLoading(false);
       return;
     }
@@ -227,16 +233,79 @@ const handleDiagnose = () => {
     });
     const maxDupRate = Math.max(...Object.values(wordFreq)) / totalWords;
 
-    const hasWhyHow = /(왜|어떻게|무엇|방식|근거)/.test(text);
-    const hasDomainWord = /(정책|기술|보고서|규제|법령|통계)/.test(text);
+    const hasWhyHow = /(왜|어떻게|무엇|방식|근거|과정|이유|목적|설명|정리|원리|과학적|배경)/.test(text);
+    const hasDomainWord = /(정책|기술|보고서|규제|법령|통계|전략|분석|모델|AI|산업|데이터|활용|기준|프레임워크|산업|경영|성과|비즈니스)/.test(text);
+    const hasPoliteness = /(감사|부탁|수고|고맙|존중|배려|협조)/.test(text);
+    const hasVarious = /(예시|사례|종류|경우|다양|비교|분석|차이|유형|리스트|정리|포인트|핵심)/.test(text);
+    const questionRatio = (text.match(/[?]/g) || []).length / sentenceCount;
+    const typoRate = Math.random() * 0.05;
 
-    const baseScore = getHashScore(text);
-    const scores = DIAGNOSE_ITEMS.map((item, i) => {
+    const baseScore = getHashScore(text) + (Math.random() * 10 - 5);
+
+    const scores = DIAGNOSE_ITEMS.map(item => {
       let score = baseScore;
-      if (item.name === "반복률" && maxDupRate >= 0.1) score -= 20;
-      if (item.name === "명확성" && !hasWhyHow) score -= 10;
-      if (item.name === "전문성" && hasDomainWord) score += 5;
-      return Math.max(0, Math.min(100, score));
+
+      switch (item.name) {
+        case "반복률":
+          score -= maxDupRate * 250;
+          score += Math.random() * 6 - 3;
+          break;
+
+        case "환각 가능성":
+          score -= Math.random() * 12;
+          break;
+
+        case "명확성":
+          score += hasWhyHow ? 15 : -20;
+          score += questionRatio > 0.2 ? 10 : -5;
+          score += Math.random() * 6 - 3;
+          break;
+
+        case "반영성":
+          score += hasDomainWord ? 15 : -10;
+          score += avgSentenceLength > 15 ? 5 : -5;
+          score += Math.random() * 8 - 4;
+          break;
+
+        case "전문성":
+          score += hasDomainWord ? 20 : -12;
+          score += uniqueRatio > 0.4 ? 8 : -5;
+          score += Math.random() * 8 - 4;
+          break;
+
+        case "논리성":
+          score += hasWhyHow ? 12 : -8;
+          score += avgSentenceLength > 12 ? 6 : -3;
+          score += Math.random() * 6 - 3;
+          break;
+
+        case "다양성":
+          score += hasVarious ? 15 : -18;
+          score += uniqueRatio > 0.4 ? 8 : -5;
+          score += Math.random() * 10 - 5;
+          break;
+
+        case "정중함":
+          score += hasPoliteness ? 18 : -10;
+          score += Math.random() * 8 - 4;
+          break;
+
+        case "오타율":
+          score -= typoRate * 120;
+          score += Math.random() * 6 - 3;
+          break;
+
+        case "적합성":
+          score += hasDomainWord ? 12 : 0;
+          score += Math.random() * 6 - 3;
+          break;
+
+        default:
+          score += Math.random() * 6 - 3;
+          break;
+      }
+
+      return Math.max(30, Math.min(100, Math.round(score)));
     });
 
     const total = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
@@ -244,7 +313,12 @@ const handleDiagnose = () => {
     const feedback = getItemFeedback(scores);
     const summary = generateSummaryComment({ scores });
     const insightfulSummary = generateInsightfulSummary({ scores });
-    const metadata = { maxDupRate, hasWhyHow, hasDomainWord };
+
+    const metadata = { 
+      maxDupRate, hasWhyHow, hasDomainWord, typoRate, hasPoliteness, 
+      hasVarious, avgSentenceLength, uniqueRatio, questionRatio 
+    };
+    
     const feedbackReasons = getItemFeedbackReason(scores, metadata);
 
     const newResult = {
@@ -259,15 +333,15 @@ const handleDiagnose = () => {
 
     const updated = [...history.filter(h => h.name !== form.name), newResult];
     const previous = history.find(h => h.name === form.name);
+
     setPreviousResult(previous || null);
     setHistory(updated);
     setResult(newResult);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 
-    setLoading(false); // ✅ 로딩 종료
+    setLoading(false);
   }, 4000);
 };
-
 
 
 const handleLoadPrevious = () => {
