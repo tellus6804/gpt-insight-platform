@@ -603,9 +603,9 @@ const comparisonInsights = diffs
                 fontWeight: 500, letterSpacing: 0.03
               }}>
                 <span style={{ fontWeight: 700, color: "#008898" }}>[데이터 안내] </span>
-                본 플랫폼에서 입력된 데이터는 진단 품질 개선, 맞춤형 서비스 제공, 통계·기술 개발 목적으로 수집·활용될 수 있습니다.
-                데이터는 안전하게 보호되며, 개인정보 관련 법령에 따라 처리됩니다.<br />
-                <span style={{ color: "#888" }}>[Notice] User data may be collected for service improvement, personalization, statistics, or legal/technical basis. All data is securely protected and processed in accordance with privacy laws.</span>
+                본 플랫폼은 서버리스 클라이언트 기반으로 운영되며, 입력된 데이터(질문/응답)는 서버에 저장되지 않습니다. 현재 방문 기록 및 기타 정보 또한 별도로 수집하고 있지 않습니다. 개인정보는 관련 법령에 따라 안전하게 처리됩니다.<br />
+                <span style={{ color: "#888" }}>GPT Insight currently operates as a serverless client app. No user input data (questions/answers) is stored on any server.  
+No visit or personal data is currently collected. All personal information is protected in accordance with privacy laws.</span>
               </div>
             </div>
           </div>
